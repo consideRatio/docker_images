@@ -16,7 +16,7 @@ on:
   workflow_dispatch:
 
 env:
-  SLUG: ${{ github.repository_owner }}/ubuntu
+  SLUG: consideratio/ubuntu
   DISTRO: ubuntu
   PLATFORMS: linux/amd64
   NODE: '14'
