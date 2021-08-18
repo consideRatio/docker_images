@@ -15,6 +15,8 @@ ARG DISTRO=ubuntu
 ARG TYPE=act
 ARG RUNNER=root
 
+USER root
+
 # > Force apt to not be interactive/not ask
 ENV DEBIAN_FRONTEND=noninteractive
 

@@ -77,18 +77,6 @@ ssh-keyscan -t rsa ssh.dev.azure.com >>/etc/ssh/ssh_known_hosts
 
 printf "\n\t🐋 Installed base utils 🐋\t\n"
 
-printf "\n\t🐋 Installing docker cli 🐋\t\n"
-curl -sSL https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
-apt-add-repository "https://packages.microsoft.com/ubuntu/${FROM_TAG}/prod"
-apt-get -yq update
-apt-get -yq install --no-install-recommends moby-cli moby-buildx
-
-printf "\n\t🐋 Installed moby-cli 🐋\t\n"
-docker -v
-
-printf "\n\t🐋 Installed moby-buildx 🐋\t\n"
-docker buildx version
-
 printf "\n\t🐋 Installing Node.JS 🐋\t\n"
 ARCH=$(uname -m)
 if [ "$ARCH" = x86_64 ]; then ARCH=x64; fi

@@ -31,17 +31,10 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: true
-      max-parallel: 4
       matrix:
         include:
           - TAG: latest
             PLATFORMS: linux/amd64,linux/arm64
-          - TAG: 20.04
-            PLATFORMS: linux/amd64,linux/arm64
-          - TAG: 18.04
-            PLATFORMS: linux/amd64
-          - TAG: 16.04
-            PLATFORMS: linux/amd64
     env:
       PLATFORMS: ${{ matrix.PLATFORMS }}
     steps:
@@ -91,8 +84,10 @@ jobs:
           RUNNER: root
           TAG: act-${{ matrix.TAG }}-${{ env.PART_TAG }}
           TYPE: act
-          FROM_IMAGE: buildpack-deps
-          FROM_TAG: ${{ env.RELEASE_TAG }}
+          # buildpack-deps is originally used by catthehacker, but I want
+          # compatibility with my deployment of actions-runner-controller
+          FROM_IMAGE: summerwind/actions-runner
+          FROM_TAG: latest
           BUILD_TAG_VERSION: ${{ env.PART_TAG }}
           BUILD_TAG: act-${{ matrix.TAG }}
 
@@ -130,8 +125,10 @@ jobs:
           RUNNER: root
           TAG: act-${{ matrix.TAG }}
           TYPE: act
-          FROM_IMAGE: buildpack-deps
-          FROM_TAG: ${{ env.RELEASE_TAG }}
+          # buildpack-deps is originally used by catthehacker, but I want
+          # compatibility with my deployment of actions-runner-controller
+          FROM_IMAGE: summerwind/actions-runner
+          FROM_TAG: latest
           BUILD_TAG_VERSION: ${{ env.PART_TAG }}
           BUILD_TAG: act-${{ matrix.TAG }}
 
@@ -152,7 +149,6 @@ jobs:
     needs: [build-base]
     strategy:
       fail-fast: false
-      max-parallel: 2
       matrix:
         include:
           - TAG: latest
@@ -161,18 +157,6 @@ jobs:
           - TAG: latest
             TYPE: pwsh
             PLATFORMS: linux/amd64,linux/arm64
-          - TAG: 20.04
-            TYPE: js
-            PLATFORMS: linux/amd64,linux/arm64
-          - TAG: 20.04
-            TYPE: pwsh
-            PLATFORMS: linux/amd64,linux/arm64
-          - TAG: 18.04
-            TYPE: js
-            PLATFORMS: linux/amd64
-          - TAG: 18.04
-            TYPE: pwsh
-            PLATFORMS: linux/amd64
     env:
       PLATFORMS: ${{ matrix.PLATFORMS }}
       BUILD_TAG: ${{ matrix.TYPE }}-${{ matrix.TAG }}
